@@ -16,19 +16,23 @@ const App: React.FC = () => {
         <User nombre="Alex" />
       </div>
       <div className="flex gap-8">
-        <div className="bg-white p-6 rounded-lg shadow-md">
+        <div className="bg-white p-6 rounded-lg shadow-md w-[300px] ">
           <h2 className="text-lg font-semibold mb-4">TOTAL JULI</h2>
-          <p>Gasto Personal: {totalJuli.numeroGastoPersonal}</p>
-          <p>Gasto Compartido: {totalJuli.numeroGastoCompartido}</p>
-          <p>Plata prestada: {totalJuli.numeroPlataPrestada}</p>
-          <p>Gasto Total: {totalJuli.numeroGastoTotal}</p>
+          <div className="space-y-4">
+            <p>Gasto Personal: {totalJuli.numeroGastoPersonal}</p>
+            <p>Plata prestada: {totalJuli.numeroPlataPrestada}</p>
+            <p>Gasto Compartido: {totalJuli.numeroGastoCompartido}</p>
+            <p>Gasto Total: {totalJuli.numeroGastoTotal}</p>
+          </div>
         </div>
-        <div className="bg-white p-6 rounded-lg shadow-md">
+        <div className="bg-white p-6 rounded-lg shadow-md  w-[300px]">
           <h2 className="text-lg font-semibold mb-4">TOTAL ALEX</h2>
-          <p>Gasto Personal: {totalAlex.numeroGastoPersonal}</p>
-          <p>Gasto Compartido: {totalAlex.numeroGastoCompartido}</p>
-          <p>Plata Prestada: {totalAlex.numeroPlataPrestada}</p>
-          <p>Gasto Total: {totalAlex.numeroGastoTotal}</p>
+          <div className="space-y-4">
+            <p>Gasto Personal: {totalAlex.numeroGastoPersonal}</p>
+            <p>Plata Prestada: {totalAlex.numeroPlataPrestada}</p>
+            <p>Gasto Compartido: {totalAlex.numeroGastoCompartido}</p>
+            <p>Gasto Total: {totalAlex.numeroGastoTotal}</p>
+          </div>
         </div>
       </div>
       <div className="mt-8">

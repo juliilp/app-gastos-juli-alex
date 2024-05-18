@@ -148,6 +148,18 @@ export default function UserProvider({ children }: Props) {
     localStorage.setItem("TareasAlex", JSON.stringify(itemsFiltrados));
   };
 
+  const handlerRemoveAllTareas = (name: string) => {
+    const alertConfirm = confirm("Estas seguro de eliminar todas las tareas?");
+    if (!alertConfirm) return;
+    if (name === "Juli") {
+      setItemsJuli([]);
+      localStorage.removeItem("TareasJuli");
+    } else {
+      setItemsAlex([]);
+      localStorage.removeItem("TareasAlex");
+    }
+  };
+
   return (
     <userContext.Provider
       value={{
@@ -158,6 +170,7 @@ export default function UserProvider({ children }: Props) {
         itemsJuli,
         itemsAlex,
         handlerRemoveTarea,
+        handlerRemoveAllTareas,
       }}
     >
       {children}

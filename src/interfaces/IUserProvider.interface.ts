@@ -8,6 +8,7 @@ export interface IUserProvider {
   itemsJuli: IUserItem[];
   itemsAlex: IUserItem[];
   handlerRemoveTarea: (id: string, name: string) => void;
+  handlerRemoveAllTareas: (name: string) => void;
 }
 
 export interface gastoTotalJuli {

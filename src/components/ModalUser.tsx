@@ -57,7 +57,7 @@ const ModalUser: React.FC<{ nombre: string; onClose: () => void }> = ({
 
   const handleCheckboxEsPersonal = () => {
     setGastoPersonalChecked((prev) => !prev);
-    setPlataPrestadaChecked((prev) => (prev = false));
+    setPlataPrestadaChecked(false);
     setData((prevData) => ({
       ...prevData,
       esPersonal: !gastoPersonalChecked,
@@ -67,7 +67,7 @@ const ModalUser: React.FC<{ nombre: string; onClose: () => void }> = ({
 
   const handlerCheckBoxPlataPrestada = () => {
     setPlataPrestadaChecked((prev) => !prev);
-    setGastoPersonalChecked((prev) => (prev = false));
+    setGastoPersonalChecked(false);
     setData((prev) => ({
       ...prev,
       plataPrestada: !plataPrestadaChecked,
