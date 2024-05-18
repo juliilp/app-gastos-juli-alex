@@ -14,6 +14,7 @@ export interface gastoTotalJuli {
   numeroGastoCompartido: number;
   numeroGastoPersonal: number;
   numeroGastoTotal: number;
+  numeroPlataPrestada: number;
 }
 
 export interface Deuda {

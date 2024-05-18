@@ -32,15 +32,19 @@ export default function UserProvider({ children }: Props) {
       updateItems = [...itemsJuli, item];
       setItemsJuli(updateItems);
       return localStorage.setItem("TareasJuli", JSON.stringify(updateItems));
+    } else {
+      updateItems = [...itemsAlex, item];
+      setItemsAlex(updateItems);
+      localStorage.setItem("TareasAlex", JSON.stringify(updateItems));
     }
-    updateItems = [...itemsAlex, item];
-    setItemsAlex(updateItems);
-    localStorage.setItem("TareasAlex", JSON.stringify(updateItems));
   };
 
   const gastoTotalJuli = (): gastoTotalJuli => {
+    const plataPrestada = itemsJuli.filter((i) => i.plataPrestada === true);
     const gastoPersonal = itemsJuli.filter((r) => r.esPersonal === true);
-    const gastoCompartido = itemsJuli.filter((r) => r.esPersonal === false);
+    const gastoCompartido = itemsJuli.filter(
+      (r) => r.esPersonal === false && r.plataPrestada === false
+    );
 
     const numeroGastoPersonal = gastoPersonal.reduce(
       (acm, currentValue) => acm + Number(currentValue.precio),
@@ -57,13 +61,25 @@ export default function UserProvider({ children }: Props) {
       0
     );
 
-    return { numeroGastoCompartido, numeroGastoPersonal, numeroGastoTotal };
+    const numeroPlataPrestada = plataPrestada.reduce(
+      (acm, currentValue) => acm + Number(currentValue.precio),
+      0
+    );
+
+    return {
+      numeroGastoCompartido,
+      numeroGastoPersonal,
+      numeroGastoTotal,
+      numeroPlataPrestada,
+    };
   };
 
   const gastoTotalAlex = (): gastoTotalJuli => {
+    const plataPrestada = itemsAlex.filter((i) => i.plataPrestada === true);
     const gastoPersonal = itemsAlex.filter((r) => r.esPersonal === true);
-    const gastoCompartido = itemsAlex.filter((r) => r.esPersonal === false);
-
+    const gastoCompartido = itemsAlex.filter(
+      (r) => r.esPersonal === false && r.plataPrestada === false
+    );
     const numeroGastoPersonal = gastoPersonal.reduce(
       (acm, currentValue) => acm + Number(currentValue.precio),
       0
@@ -78,7 +94,17 @@ export default function UserProvider({ children }: Props) {
       0
     );
 
-    return { numeroGastoCompartido, numeroGastoPersonal, numeroGastoTotal };
+    const numeroPlataPrestada = plataPrestada.reduce(
+      (acm, currentValue) => acm + Number(currentValue.precio),
+      0
+    );
+
+    return {
+      numeroGastoCompartido,
+      numeroGastoPersonal,
+      numeroGastoTotal,
+      numeroPlataPrestada,
+    };
   };
 
   const deberPlata = () => {

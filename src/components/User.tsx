@@ -22,22 +22,39 @@ const User: React.FC<Props> = ({ nombre }) => {
           {userItems.length === 0 && (
             <p className="text-sm text-gray-500">{nombre} no tiene gastos</p>
           )}
-          {userItems.map((item, index) => (
-            <div key={index} className="mb-4">
-              <h4 className="text-sm font-medium">
-                {item.nombre} ${item.precio}
-              </h4>
-              <p className="text-sm text-gray-600 mb-2">
-                {item.descripcion || "Sin descripción"}
-              </p>
-              <button
-                className="text-sm text-red-500 font-semibold"
-                onClick={() => handlerRemoveTarea(item.id, nombre)}
-              >
-                Eliminar
-              </button>
-            </div>
-          ))}
+          <div className="flex flex-col gap-4">
+            {userItems.map((item, index) => (
+              <div key={index} className="mb-4">
+                <div className="flex gap-6 items-center">
+                  <h4 className="text-sm font-medium ">
+                    {item.nombre} ${item.precio}
+                  </h4>
+                  <button
+                    className="text-sm text-red-500 font-semibold"
+                    onClick={() => handlerRemoveTarea(item.id, nombre)}
+                  >
+                    Eliminar
+                  </button>
+                  {item.plataPrestada && (
+                    <span className="text-sm text-gray-400 ">
+                      Plata Prestada
+                    </span>
+                  )}
+                  {item.esPersonal && (
+                    <span className="text-sm text-gray-400 ">Es Personal</span>
+                  )}
+                  {!item.esPersonal && !item.plataPrestada && (
+                    <span className="text-sm text-gray-400 ">
+                      Gasto Compartido
+                    </span>
+                  )}
+                </div>
+                <p className="text-sm text-gray-600 mb-2">
+                  {item.descripcion || "Sin descripción"}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
         <div className="p-4 bg-gray-100 border-t border-gray-200">
           <button

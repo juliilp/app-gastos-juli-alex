@@ -4,4 +4,5 @@ export interface IUserItem {
   descripcion?: string;
   precio: number;
   esPersonal: boolean;
+  plataPrestada: boolean;
 }

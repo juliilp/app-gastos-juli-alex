@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useId } from "react";
 import { IUserItem } from "../interfaces/IUserItem.interface";
 import useUsers from "../hooks/useUsers";
 
@@ -7,13 +7,16 @@ const ModalUser: React.FC<{ nombre: string; onClose: () => void }> = ({
   onClose,
 }) => {
   const [gastoPersonalChecked, setGastoPersonalChecked] = useState(false);
+  const [plataPrestadaChecked, setPlataPrestadaChecked] = useState(false);
   const { addItemsUser } = useUsers();
+  const id = useId();
   const [data, setData] = useState<IUserItem>({
-    id: "",
+    id: id,
     descripcion: "",
     nombre: "",
     precio: 0,
     esPersonal: false,
+    plataPrestada: false,
   });
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -41,7 +44,6 @@ const ModalUser: React.FC<{ nombre: string; onClose: () => void }> = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (data.nombre.length < 3) {
       return alert("El nombre no puede estar vacío.");
     }
@@ -53,14 +55,25 @@ const ModalUser: React.FC<{ nombre: string; onClose: () => void }> = ({
     onClose();
   };
 
-  const handleCheckboxChange = () => {
-    setGastoPersonalChecked(!gastoPersonalChecked);
+  const handleCheckboxEsPersonal = () => {
+    setGastoPersonalChecked((prev) => !prev);
+    setPlataPrestadaChecked((prev) => (prev = false));
     setData((prevData) => ({
       ...prevData,
       esPersonal: !gastoPersonalChecked,
+      plataPrestada: false,
     }));
   };
 
+  const handlerCheckBoxPlataPrestada = () => {
+    setPlataPrestadaChecked((prev) => !prev);
+    setGastoPersonalChecked((prev) => (prev = false));
+    setData((prev) => ({
+      ...prev,
+      plataPrestada: !plataPrestadaChecked,
+      esPersonal: false,
+    }));
+  };
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
       <div ref={modalRef} className="bg-white p-8 rounded-lg shadow-md w-96">
@@ -98,8 +111,20 @@ const ModalUser: React.FC<{ nombre: string; onClose: () => void }> = ({
               type="checkbox"
               id="personal"
               checked={gastoPersonalChecked}
-              onChange={handleCheckboxChange}
+              onChange={handleCheckboxEsPersonal}
               className="w-4 h-4 border-gray-300 rounded focus:ring-gray-400"
+            />
+          </div>
+          <div className="flex items-center space-x-2">
+            <label htmlFor="plataPrestada" className="text-sm">
+              ¿Es plata prestada?
+            </label>
+            <input
+              type="checkbox"
+              onChange={handlerCheckBoxPlataPrestada}
+              checked={plataPrestadaChecked}
+              className="w-4 h-4 border-gray-300 rounded focus:ring-gray-400"
+              id="plataPrestada"
             />
           </div>
           <div className="flex justify-end space-x-4">
