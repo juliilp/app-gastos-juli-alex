@@ -8,6 +8,7 @@ const ModalUser: React.FC<{ nombre: string; onClose: () => void }> = ({
 }) => {
   const [gastoPersonalChecked, setGastoPersonalChecked] = useState(false);
   const [plataPrestadaChecked, setPlataPrestadaChecked] = useState(false);
+  const [gastoCompartidoChecked, setGastoCompartidoChecked] = useState(false);
   const { addItemsUser } = useUsers();
   const id = useId();
   const [data, setData] = useState<IUserItem>({
@@ -17,6 +18,7 @@ const ModalUser: React.FC<{ nombre: string; onClose: () => void }> = ({
     precio: 0,
     esPersonal: false,
     plataPrestada: false,
+    gastoCompartido: false,
   });
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -47,10 +49,13 @@ const ModalUser: React.FC<{ nombre: string; onClose: () => void }> = ({
     if (data.nombre.length < 3) {
       return alert("El nombre no puede estar vacío.");
     }
-    if (data.precio < 200) {
-      return alert("El precio no puede ser menor a 200 pesos.");
+    if (data.precio === 0) {
+      return alert("El precio no puede ser 0");
     }
 
+    if (!data.plataPrestada && !data.esPersonal && !data.gastoCompartido) {
+      return alert("Selecciona una opción");
+    }
     addItemsUser(nombre, data);
     onClose();
   };
@@ -58,22 +63,39 @@ const ModalUser: React.FC<{ nombre: string; onClose: () => void }> = ({
   const handleCheckboxEsPersonal = () => {
     setGastoPersonalChecked((prev) => !prev);
     setPlataPrestadaChecked(false);
+    setGastoCompartidoChecked(false);
     setData((prevData) => ({
       ...prevData,
       esPersonal: !gastoPersonalChecked,
       plataPrestada: false,
+      gastoCompartido: false,
     }));
   };
 
   const handlerCheckBoxPlataPrestada = () => {
     setPlataPrestadaChecked((prev) => !prev);
     setGastoPersonalChecked(false);
+    setGastoCompartidoChecked(false);
     setData((prev) => ({
       ...prev,
       plataPrestada: !plataPrestadaChecked,
       esPersonal: false,
+      gastoCompartido: false,
     }));
   };
+
+  const handlerGastoCompartido = () => {
+    setGastoCompartidoChecked((prev) => !prev);
+    setGastoPersonalChecked(false);
+    setPlataPrestadaChecked(false);
+    setData((prev) => ({
+      ...prev,
+      esPersonal: false,
+      plataPrestada: false,
+      gastoCompartido: !gastoCompartidoChecked,
+    }));
+  };
+  console.log(gastoCompartidoChecked);
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
       <div ref={modalRef} className="bg-white p-8 rounded-lg shadow-md w-96">
@@ -123,6 +145,18 @@ const ModalUser: React.FC<{ nombre: string; onClose: () => void }> = ({
               type="checkbox"
               onChange={handlerCheckBoxPlataPrestada}
               checked={plataPrestadaChecked}
+              className="w-4 h-4 border-gray-300 rounded focus:ring-gray-400"
+              id="plataPrestada"
+            />
+          </div>
+          <div className="flex items-center space-x-2">
+            <label htmlFor="plataPrestada" className="text-sm">
+              ¿Es gasto compartido?
+            </label>
+            <input
+              type="checkbox"
+              onChange={handlerGastoCompartido}
+              checked={gastoCompartidoChecked}
               className="w-4 h-4 border-gray-300 rounded focus:ring-gray-400"
               id="plataPrestada"
             />

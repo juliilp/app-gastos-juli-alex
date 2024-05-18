@@ -42,9 +42,7 @@ export default function UserProvider({ children }: Props) {
   const gastoTotalJuli = (): gastoTotalJuli => {
     const plataPrestada = itemsJuli.filter((i) => i.plataPrestada === true);
     const gastoPersonal = itemsJuli.filter((r) => r.esPersonal === true);
-    const gastoCompartido = itemsJuli.filter(
-      (r) => r.esPersonal === false && r.plataPrestada === false
-    );
+    const gastoCompartido = itemsJuli.filter((r) => r.gastoCompartido === true);
 
     const numeroGastoPersonal = gastoPersonal.reduce(
       (acm, currentValue) => acm + Number(currentValue.precio),
@@ -56,12 +54,12 @@ export default function UserProvider({ children }: Props) {
       0
     );
 
-    const numeroGastoTotal = itemsJuli.reduce(
+    const numeroPlataPrestada = plataPrestada.reduce(
       (acm, currentValue) => acm + Number(currentValue.precio),
       0
     );
 
-    const numeroPlataPrestada = plataPrestada.reduce(
+    const numeroGastoTotal = itemsJuli.reduce(
       (acm, currentValue) => acm + Number(currentValue.precio),
       0
     );
@@ -77,9 +75,8 @@ export default function UserProvider({ children }: Props) {
   const gastoTotalAlex = (): gastoTotalJuli => {
     const plataPrestada = itemsAlex.filter((i) => i.plataPrestada === true);
     const gastoPersonal = itemsAlex.filter((r) => r.esPersonal === true);
-    const gastoCompartido = itemsAlex.filter(
-      (r) => r.esPersonal === false && r.plataPrestada === false
-    );
+    const gastoCompartido = itemsAlex.filter((r) => r.gastoCompartido === true);
+
     const numeroGastoPersonal = gastoPersonal.reduce(
       (acm, currentValue) => acm + Number(currentValue.precio),
       0

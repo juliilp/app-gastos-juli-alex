@@ -5,4 +5,5 @@ export interface IUserItem {
   precio: number;
   esPersonal: boolean;
   plataPrestada: boolean;
+  gastoCompartido: boolean;
 }

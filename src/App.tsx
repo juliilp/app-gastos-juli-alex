@@ -19,24 +19,24 @@ const App: React.FC = () => {
         <div className="bg-white p-6 rounded-lg shadow-md w-[300px] ">
           <h2 className="text-lg font-semibold mb-4">TOTAL JULI</h2>
           <div className="space-y-4">
-            <p>Gasto Personal: {totalJuli.numeroGastoPersonal}</p>
-            <p>Plata prestada: {totalJuli.numeroPlataPrestada}</p>
-            <p>Gasto Compartido: {totalJuli.numeroGastoCompartido}</p>
-            <p>Gasto Total: {totalJuli.numeroGastoTotal}</p>
+            <p>Gasto Personal: ${totalJuli.numeroGastoPersonal}</p>
+            <p>Plata prestada: ${totalJuli.numeroPlataPrestada}</p>
+            <p>Gasto Compartido: ${totalJuli.numeroGastoCompartido}</p>
+            <p>Gasto Total: ${totalJuli.numeroGastoTotal}</p>
           </div>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-md  w-[300px]">
           <h2 className="text-lg font-semibold mb-4">TOTAL ALEX</h2>
           <div className="space-y-4">
-            <p>Gasto Personal: {totalAlex.numeroGastoPersonal}</p>
-            <p>Plata Prestada: {totalAlex.numeroPlataPrestada}</p>
+            <p>Gasto Personal: ${totalAlex.numeroGastoPersonal}</p>
+            <p>Plata Prestada: ${totalAlex.numeroPlataPrestada}</p>
             <p>Gasto Compartido: {totalAlex.numeroGastoCompartido}</p>
-            <p>Gasto Total: {totalAlex.numeroGastoTotal}</p>
+            <p>Gasto Total: ${totalAlex.numeroGastoTotal}</p>
           </div>
         </div>
       </div>
-      <div className="mt-8">
-        <span>{deberPlata().span}</span>
+      <div className="mt-8 text-xl">
+        <u>{deberPlata().span}</u>
       </div>
     </main>
   );
