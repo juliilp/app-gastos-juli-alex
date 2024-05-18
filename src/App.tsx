@@ -1,35 +1,39 @@
-import User from "./components/User";
+// App.tsx
+import React from "react";
 import useUsers from "./hooks/useUsers";
-import { gastoTotalJuli } from "./interfaces/IUserProvider.interface";
+import User from "./components/User";
 
-export default function App() {
+const App: React.FC = () => {
   const { gastoTotalJuli, gastoTotalAlex, deberPlata } = useUsers();
 
-  const totalJuli: gastoTotalJuli = gastoTotalJuli();
-  const totalAlex: gastoTotalJuli = gastoTotalAlex();
+  const totalJuli = gastoTotalJuli();
+  const totalAlex = gastoTotalAlex();
 
   return (
-    <main className="flex flex-col justify-center gap-12 items-center w-full h-screen">
-      <div className="flex gap-12">
+    <main className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4 md:p-8">
+      <div className="flex flex-wrap gap-8 w-full justify-center mb-8">
         <User nombre="Juli" />
         <User nombre="Alex" />
       </div>
-      <div className="flex gap-16">
-        <div>
-          <h2>TOTAL JULI</h2>
+      <div className="flex gap-8">
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h2 className="text-lg font-semibold mb-4">TOTAL JULI</h2>
           <p>Gasto Personal: {totalJuli.numeroGastoPersonal}</p>
           <p>Gasto Compartido: {totalJuli.numeroGastoCompartido}</p>
           <p>Gasto Total: {totalJuli.numeroGastoTotal}</p>
         </div>
-        <div>
-          <h2>TOTAL ALEX</h2>
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h2 className="text-lg font-semibold mb-4">TOTAL ALEX</h2>
           <p>Gasto Personal: {totalAlex.numeroGastoPersonal}</p>
           <p>Gasto Compartido: {totalAlex.numeroGastoCompartido}</p>
           <p>Gasto Total: {totalAlex.numeroGastoTotal}</p>
         </div>
       </div>
-
-      <span>{deberPlata().span}</span>
+      <div className="mt-8">
+        <span>{deberPlata().span}</span>
+      </div>
     </main>
   );
-}
+};
+
+export default App;
