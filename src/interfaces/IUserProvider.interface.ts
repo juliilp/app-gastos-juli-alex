@@ -9,14 +9,13 @@ export interface IUserProvider {
   itemsAlex: IUserItem[];
   handlerRemoveTarea: (id: string, name: string) => void;
   handlerRemoveAllTareas: (name: string) => void;
-  formatNumber: (number: number) => void;
 }
 
 export interface gastoTotalJuli {
-  numeroGastoCompartido: string;
-  numeroGastoPersonal: string;
-  numeroGastoTotal: string;
-  numeroPlataPrestada: string;
+  numeroGastoCompartido: number;
+  numeroGastoPersonal: number;
+  numeroGastoTotal: number;
+  numeroPlataPrestada: number;
 }
 
 export interface Deuda {

@@ -13,10 +13,6 @@ export default function UserProvider({ children }: Props) {
   const [itemsJuli, setItemsJuli] = useState<IUserItem[]>([]);
   const [itemsAlex, setItemsAlex] = useState<IUserItem[]>([]);
 
-  function formatNumber(number: number) {
-    return new Intl.NumberFormat("es-ES").format(number);
-  }
-
   useEffect(() => {
     const traerItemsJuli = localStorage.getItem("TareasJuli");
     const traerItemsAlex = localStorage.getItem("TareasAlex");
@@ -52,30 +48,25 @@ export default function UserProvider({ children }: Props) {
       (r) => r.gastoCompartido === true
     );
 
-    const gastoPersonal = filterGastoPersonal.reduce(
+    const numeroGastoPersonal = filterGastoPersonal.reduce(
       (acm, currentValue) => acm + Number(currentValue.precio),
       0
     );
 
-    const gastoCompartido = filterGastoCompartido.reduce(
+    const numeroGastoCompartido = filterGastoCompartido.reduce(
       (acm, currentValue) => acm + Number(currentValue.precio),
       0
     );
 
-    const plataPrestada = filterPlataPrestada.reduce(
+    const numeroPlataPrestada = filterPlataPrestada.reduce(
       (acm, currentValue) => acm + Number(currentValue.precio),
       0
     );
 
-    const numeroGasto = itemsJuli.reduce(
+    const numeroGastoTotal = itemsJuli.reduce(
       (acm, currentValue) => acm + Number(currentValue.precio),
       0
     );
-
-    const numeroGastoTotal = formatNumber(numeroGasto);
-    const numeroPlataPrestada = formatNumber(plataPrestada);
-    const numeroGastoPersonal = formatNumber(gastoPersonal);
-    const numeroGastoCompartido = formatNumber(gastoCompartido);
 
     return {
       numeroGastoCompartido,
@@ -94,29 +85,24 @@ export default function UserProvider({ children }: Props) {
       (r) => r.gastoCompartido === true
     );
 
-    const gastoPersonal = filterGastoPersonal.reduce(
+    const numeroGastoPersonal = filterGastoPersonal.reduce(
       (acm, currentValue) => acm + Number(currentValue.precio),
       0
     );
-    const gastoCompartido = filterGastoCompartido.reduce(
-      (acm, currentValue) => acm + Number(currentValue.precio),
-      0
-    );
-
-    const gastoTotal = itemsAlex.reduce(
+    const numeroGastoCompartido = filterGastoCompartido.reduce(
       (acm, currentValue) => acm + Number(currentValue.precio),
       0
     );
 
-    const plataPrestada = filterPlataPrestada.reduce(
+    const numeroGastoTotal = itemsAlex.reduce(
       (acm, currentValue) => acm + Number(currentValue.precio),
       0
     );
 
-    const numeroGastoTotal = formatNumber(gastoTotal);
-    const numeroPlataPrestada = formatNumber(plataPrestada);
-    const numeroGastoPersonal = formatNumber(gastoPersonal);
-    const numeroGastoCompartido = formatNumber(gastoCompartido);
+    const numeroPlataPrestada = filterPlataPrestada.reduce(
+      (acm, currentValue) => acm + Number(currentValue.precio),
+      0
+    );
 
     return {
       numeroGastoCompartido,
@@ -190,7 +176,6 @@ export default function UserProvider({ children }: Props) {
         itemsAlex,
         handlerRemoveTarea,
         handlerRemoveAllTareas,
-        formatNumber,
       }}
     >
       {children}
