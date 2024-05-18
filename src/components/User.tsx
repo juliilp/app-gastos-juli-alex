@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import useUsers from "../hooks/useUsers";
 import ModalUser from "./ModalUser";
 import Tacho from "../../public/tacho.png";
+import { IUserItem } from "../interfaces/IUserItem.interface";
+
 interface Props {
   nombre: "Juli" | "Alex";
 }
@@ -10,10 +12,18 @@ interface Props {
 const User: React.FC<Props> = ({ nombre }) => {
   const { itemsJuli, itemsAlex, handlerRemoveTarea, handlerRemoveAllTareas } =
     useUsers();
-  const userItems = nombre === "Juli" ? itemsJuli : itemsAlex;
+  const userItems: IUserItem[] = nombre === "Juli" ? itemsJuli : itemsAlex;
   const [switchModal, setSwitchModal] = useState(false);
 
   const toggleModal = () => setSwitchModal(!switchModal);
+
+  const sortedItems = [...userItems].sort((a, b) => {
+    if (a.gastoCompartido && !b.gastoCompartido) return -1;
+    if (!a.gastoCompartido && b.gastoCompartido) return 1;
+    if (a.plataPrestada && !b.plataPrestada) return -1;
+    if (!a.plataPrestada && b.plataPrestada) return 1;
+    return 0;
+  });
 
   return (
     <section className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8">
@@ -31,7 +41,7 @@ const User: React.FC<Props> = ({ nombre }) => {
             <p className="text-sm text-gray-500">{nombre} no tiene gastos</p>
           )}
           <div className="flex flex-col gap-4">
-            {userItems.map((item, index) => (
+            {sortedItems.map((item, index) => (
               <div key={index} className="mb-4">
                 <div className="flex gap-6 items-center">
                   <h4 className="text-sm font-medium ">
@@ -49,7 +59,7 @@ const User: React.FC<Props> = ({ nombre }) => {
                     </span>
                   )}
                   {item.esPersonal && (
-                    <span className="text-sm text-gray-400 ">Es Personal</span>
+                    <span className="text-sm text-gray-400 ">Personal</span>
                   )}
                   {!item.esPersonal && !item.plataPrestada && (
                     <span className="text-sm text-gray-400 ">
