@@ -13,6 +13,10 @@ export default function UserProvider({ children }: Props) {
   const [itemsJuli, setItemsJuli] = useState<IUserItem[]>([]);
   const [itemsAlex, setItemsAlex] = useState<IUserItem[]>([]);
 
+  function formatNumber(number: number) {
+    return new Intl.NumberFormat("es-ES").format(number);
+  }
+
   useEffect(() => {
     const traerItemsJuli = localStorage.getItem("TareasJuli");
     const traerItemsAlex = localStorage.getItem("TareasAlex");
@@ -40,29 +44,38 @@ export default function UserProvider({ children }: Props) {
   };
 
   const gastoTotalJuli = (): gastoTotalJuli => {
-    const plataPrestada = itemsJuli.filter((i) => i.plataPrestada === true);
-    const gastoPersonal = itemsJuli.filter((r) => r.esPersonal === true);
-    const gastoCompartido = itemsJuli.filter((r) => r.gastoCompartido === true);
+    const filterPlataPrestada = itemsJuli.filter(
+      (i) => i.plataPrestada === true
+    );
+    const filterGastoPersonal = itemsJuli.filter((r) => r.esPersonal === true);
+    const filterGastoCompartido = itemsJuli.filter(
+      (r) => r.gastoCompartido === true
+    );
 
-    const numeroGastoPersonal = gastoPersonal.reduce(
+    const gastoPersonal = filterGastoPersonal.reduce(
       (acm, currentValue) => acm + Number(currentValue.precio),
       0
     );
 
-    const numeroGastoCompartido = gastoCompartido.reduce(
+    const gastoCompartido = filterGastoCompartido.reduce(
       (acm, currentValue) => acm + Number(currentValue.precio),
       0
     );
 
-    const numeroPlataPrestada = plataPrestada.reduce(
+    const plataPrestada = filterPlataPrestada.reduce(
       (acm, currentValue) => acm + Number(currentValue.precio),
       0
     );
 
-    const numeroGastoTotal = itemsJuli.reduce(
+    const numeroGasto = itemsJuli.reduce(
       (acm, currentValue) => acm + Number(currentValue.precio),
       0
     );
+
+    const numeroGastoTotal = formatNumber(numeroGasto);
+    const numeroPlataPrestada = formatNumber(plataPrestada);
+    const numeroGastoPersonal = formatNumber(gastoPersonal);
+    const numeroGastoCompartido = formatNumber(gastoCompartido);
 
     return {
       numeroGastoCompartido,
@@ -73,28 +86,37 @@ export default function UserProvider({ children }: Props) {
   };
 
   const gastoTotalAlex = (): gastoTotalJuli => {
-    const plataPrestada = itemsAlex.filter((i) => i.plataPrestada === true);
-    const gastoPersonal = itemsAlex.filter((r) => r.esPersonal === true);
-    const gastoCompartido = itemsAlex.filter((r) => r.gastoCompartido === true);
-
-    const numeroGastoPersonal = gastoPersonal.reduce(
-      (acm, currentValue) => acm + Number(currentValue.precio),
-      0
+    const filterPlataPrestada = itemsAlex.filter(
+      (i) => i.plataPrestada === true
     );
-    const numeroGastoCompartido = gastoCompartido.reduce(
-      (acm, currentValue) => acm + Number(currentValue.precio),
-      0
+    const filterGastoPersonal = itemsAlex.filter((r) => r.esPersonal === true);
+    const filterGastoCompartido = itemsAlex.filter(
+      (r) => r.gastoCompartido === true
     );
 
-    const numeroGastoTotal = itemsAlex.reduce(
+    const gastoPersonal = filterGastoPersonal.reduce(
+      (acm, currentValue) => acm + Number(currentValue.precio),
+      0
+    );
+    const gastoCompartido = filterGastoCompartido.reduce(
       (acm, currentValue) => acm + Number(currentValue.precio),
       0
     );
 
-    const numeroPlataPrestada = plataPrestada.reduce(
+    const gastoTotal = itemsAlex.reduce(
       (acm, currentValue) => acm + Number(currentValue.precio),
       0
     );
+
+    const plataPrestada = filterPlataPrestada.reduce(
+      (acm, currentValue) => acm + Number(currentValue.precio),
+      0
+    );
+
+    const numeroGastoTotal = formatNumber(gastoTotal);
+    const numeroPlataPrestada = formatNumber(plataPrestada);
+    const numeroGastoPersonal = formatNumber(gastoPersonal);
+    const numeroGastoCompartido = formatNumber(gastoCompartido);
 
     return {
       numeroGastoCompartido,
@@ -105,8 +127,8 @@ export default function UserProvider({ children }: Props) {
   };
 
   const deberPlata = () => {
-    const gastoJuli = gastoTotalJuli().numeroGastoCompartido;
-    const gastoAlex = gastoTotalAlex().numeroGastoCompartido;
+    const gastoJuli = Number(gastoTotalJuli().numeroGastoCompartido);
+    const gastoAlex = Number(gastoTotalAlex().numeroGastoCompartido);
     let total = 0;
 
     if (gastoJuli > gastoAlex) {
@@ -168,6 +190,7 @@ export default function UserProvider({ children }: Props) {
         itemsAlex,
         handlerRemoveTarea,
         handlerRemoveAllTareas,
+        formatNumber,
       }}
     >
       {children}
