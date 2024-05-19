@@ -113,29 +113,36 @@ export default function UserProvider({ children }: Props) {
   };
 
   const deberPlata = () => {
-    const gastoJuli = Number(gastoTotalJuli().numeroGastoCompartido);
-    const gastoAlex = Number(gastoTotalAlex().numeroGastoCompartido);
+    const numeroGastoCompartidoJuli = Number(
+      gastoTotalJuli().numeroGastoCompartido
+    );
+    const numeroGastoCompartidoAlex = Number(
+      gastoTotalAlex().numeroGastoCompartido
+    );
+    const numeroPlataPrestadaJuli = gastoTotalJuli().numeroPlataPrestada;
+    const numeroPlataPrestadaAlex = gastoTotalAlex().numeroPlataPrestada;
+    const LoQueleDebenAAlex =
+      numeroGastoCompartidoAlex / 2 - numeroPlataPrestadaJuli;
+    const LoQueLeDebenAJuli =
+      numeroGastoCompartidoJuli / 2 - numeroPlataPrestadaAlex;
+
     let total = 0;
 
-    if (gastoJuli > gastoAlex) {
-      total = Number(gastoJuli) / 2 - Number(gastoAlex) / 2;
+    if (LoQueleDebenAAlex > LoQueLeDebenAJuli) {
+      total = LoQueleDebenAAlex - LoQueLeDebenAJuli;
     } else {
-      total = Number(gastoAlex) / 2 - Number(gastoJuli) / 2;
+      total = LoQueLeDebenAJuli - LoQueleDebenAAlex;
     }
 
-    if ((gastoAlex === 0 && gastoJuli === 0) || gastoAlex === gastoJuli) {
-      return { span: "No se deben nada" };
-    }
-
-    if (gastoJuli > gastoAlex) {
+    if (LoQueleDebenAAlex > LoQueLeDebenAJuli) {
       return {
-        span: `Alex le debe $${Number(total)} a Juli`,
+        span: `Juli le debe $${total} a Alex`,
+      };
+    } else {
+      return {
+        span: `Alex le debe $${total} a Juli`,
       };
     }
-
-    return {
-      span: `Juli le debe $${Number(total)} a Alex`,
-    };
   };
 
   const handlerRemoveTarea = (id: string, name: string) => {
